@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Cup holder tray macro -->
+  <xacro:macro name="cup_holder_tray">
+    <!-- Constants for the tray - 320mm width (0.16m radius), 90mm height -->
+    <xacro:property name="tray_radius" value="0.16" />
+    <xacro:property name="tray_height" value="0.09" />
+    <xacro:property name="tray_mass" value="1.0" />
+    <xacro:property name="tray_z_offset" value="0.41" />
+
+    <link name="cup_holder_tray_link">
+      <inertial>
+        <origin xyz="0 0 ${tray_height/2}" rpy="0 0 0"/>
+        <mass value="${tray_mass}"/>
+        <inertia 
+          ixx="${tray_mass * (3*tray_radius*tray_radius + tray_height*tray_height) / 12}" 
+          ixy="0" 
+          ixz="0" 
+          iyy="${tray_mass * (3*tray_radius*tray_radius + tray_height*tray_height) / 12}" 
+          iyz="0" 
+          izz="${tray_mass * tray_radius*tray_radius / 2}"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 ${tray_height/2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${tray_radius}" length="${tray_height}"/>
+        </geometry>
+        <material name="robot_blue"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${tray_height/2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${tray_radius}" length="${tray_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="cup_holder_tray_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="cup_holder_tray_link"/>
+      <origin xyz="0 0 ${tray_z_offset}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Gazebo-specific properties -->
+    <gazebo reference="cup_holder_tray_link">
+      <material>Gazebo/Blue</material>
+    </gazebo>
+  </xacro:macro>
+
+</robot>
