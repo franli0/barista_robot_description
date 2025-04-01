@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="barista_robot">
+
+  <!-- Include all macros -->
+  <xacro:include filename="$(find barista_robot_description)/xacro/drive_wheel.xacro" />
+  <xacro:include filename="$(find barista_robot_description)/xacro/caster_wheel.xacro" />
+  <xacro:include filename="$(find barista_robot_description)/xacro/standoff_rod.xacro" />
+  <xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
+  <xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
+
+  <!-- Define argument for laser scanner inclusion -->
+  <xacro:arg name="include_laser" default="true"/>
+
+  <!-- Define colors -->
+  <material name="robot_blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="robot_black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="robot_white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="robot_silver">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <!-- Base Link (Main Body) - cylinder with dimensions 356mm width, 155mm height -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0.1125" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.1125" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.178" length="0.155"/>
+      </geometry>
+      <material name="robot_blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.1125" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.178" length="0.155"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Gazebo color for the base_link -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <!-- Add wheels using macros -->
+  <xacro:drive_wheel prefix="left" reflect="1" />
+  <xacro:drive_wheel prefix="right" reflect="-1" />
+
+  <!-- Add caster wheels using macros -->
+  <xacro:caster_wheel prefix="front" x_offset="0.12" y_offset="0" />
+  <xacro:caster_wheel prefix="rear" x_offset="-0.12" y_offset="0" />
+
+  <!-- Add standoff rods using macros -->
+  <xacro:standoff_rod prefix="front_left" x_offset="0.08" y_offset="0.08" />
+  <xacro:standoff_rod prefix="front_right" x_offset="0.08" y_offset="-0.08" />
+  <xacro:standoff_rod prefix="rear_left" x_offset="-0.08" y_offset="0.08" />
+  <xacro:standoff_rod prefix="rear_right" x_offset="-0.08" y_offset="-0.08" />
+
+  <!-- Add cup holder tray using macro -->
+  <xacro:cup_holder_tray />
+
+  <!-- Add laser scanner if include_laser is true -->
+  <xacro:if value="$(arg include_laser)">
+    <xacro:laser_scanner />
+  </xacro:if>
+
+  <!-- Differential drive controller -->
+  <gazebo>
+    <plugin name="gazebo_ros_diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+      <update_rate>100.0</update_rate>
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>0.28</wheel_separation>
+      <wheel_diameter>0.0704</wheel_diameter>
+      <max_wheel_acceleration>1.0</max_wheel_acceleration>
+      <max_wheel_torque>20</max_wheel_torque>
+      <command_topic>cmd_vel</command_topic>
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>false</publish_wheel_tf>
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+</robot>
