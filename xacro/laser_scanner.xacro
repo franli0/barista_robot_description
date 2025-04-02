@@ -17,7 +17,7 @@
       <visual>
         <origin xyz="0 0 0.025" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://barista_robot_description/meshes/hokuyo.dae"/>
+          <mesh filename="package://barista_robot_description/meshes/hokuyo.dae" scale="1 1 1"/>
         </geometry>
         <material name="robot_black"/>
       </visual>
@@ -37,7 +37,7 @@
 
     <!-- Gazebo-specific properties -->
     <gazebo reference="laser_link">
-      <material>Gazebo/Black</material>
+      <material>Gazebo/Grey</material>
       <sensor type="ray" name="head_hokuyo_sensor">
         <pose>0 0 0 0 0 0</pose>
         <visualize>true</visualize>
