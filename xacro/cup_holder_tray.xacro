@@ -7,7 +7,6 @@
     <xacro:property name="tray_radius" value="0.16" />
     <xacro:property name="tray_height" value="0.09" />
     <xacro:property name="tray_mass" value="1.0" />
-    <xacro:property name="tray_z_offset" value="0.41" />
 
     <link name="cup_holder_tray_link">
       <inertial>
@@ -39,7 +38,7 @@
     <joint name="cup_holder_tray_joint" type="fixed">
       <parent link="base_link"/>
       <child link="cup_holder_tray_link"/>
-      <origin xyz="0 0 ${tray_z_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0.2975" rpy="0 0 0"/>
     </joint>
 
     <!-- Gazebo-specific properties -->

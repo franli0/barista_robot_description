@@ -39,7 +39,7 @@
     <joint name="${prefix}_rod_joint" type="fixed">
       <parent link="base_link"/>
       <child link="${prefix}_rod_link"/>
-      <origin xyz="${x_offset} ${y_offset} ${rod_z_offset}" rpy="0 0 0"/>
+      <origin xyz="${x_offset} ${y_offset} 0.0775" rpy="0 0 0"/>
     </joint>
 
     <!-- Gazebo-specific properties -->
