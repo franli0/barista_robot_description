@@ -372,7 +372,7 @@
   </gazebo>
 
   <gazebo reference="laser_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Grey</material>
   </gazebo>
 
   <!-- Differential drive controller -->
@@ -400,7 +400,6 @@
 
   <!-- Laser controller -->
   <gazebo reference="laser_link">
-    <material>Gazebo/Grey</material>
     <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
@@ -432,7 +431,6 @@
         </ros>
         <output_type>sensor_msgs/LaserScan</output_type>
         <frame_name>laser_link</frame_name>
-        <visualize>true</visualize>
       </plugin>
     </sensor>
   </gazebo>
