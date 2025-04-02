@@ -14,7 +14,6 @@ install(DIRECTORY
   launch
   meshes
   rviz
-  xacro
   DESTINATION share/${PROJECT_NAME}/
 )
 
