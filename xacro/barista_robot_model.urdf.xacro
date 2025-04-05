@@ -64,10 +64,10 @@
   <xacro:caster_wheel prefix="rear" x_offset="-0.12" y_offset="0" />
 
   <!-- Add standoff rods using macros -->
-  <xacro:standoff_rod prefix="front_left" x_offset="0.08" y_offset="0.08" />
-  <xacro:standoff_rod prefix="front_right" x_offset="0.08" y_offset="-0.08" />
-  <xacro:standoff_rod prefix="rear_left" x_offset="-0.08" y_offset="0.08" />
-  <xacro:standoff_rod prefix="rear_right" x_offset="-0.08" y_offset="-0.08" />
+  <xacro:standoff_rod prefix="front_left" x_offset="0.03" y_offset="0.13" />
+  <xacro:standoff_rod prefix="front_right" x_offset="0.03" y_offset="-0.13" />
+  <xacro:standoff_rod prefix="rear_left" x_offset="-0.03" y_offset="0.13" />
+  <xacro:standoff_rod prefix="rear_right" x_offset="-0.03" y_offset="-0.13" />
 
   <!-- Add cup holder tray using macro -->
   <xacro:cup_holder_tray />
