@@ -180,7 +180,7 @@
   <joint name="front_left_rod_joint" type="fixed">
     <parent link="base_link"/>
     <child link="front_left_rod_link"/>
-    <origin xyz="0.08 0.08 0.0775" rpy="0 0 0"/>
+    <origin xyz="0.03 0.13 0.0775" rpy="0 0 0"/>
   </joint>
 
   <!-- Front Right Rod -->
@@ -208,7 +208,7 @@
   <joint name="front_right_rod_joint" type="fixed">
     <parent link="base_link"/>
     <child link="front_right_rod_link"/>
-    <origin xyz="0.08 -0.08 0.0775" rpy="0 0 0"/>
+    <origin xyz="0.03 -0.13 0.0775" rpy="0 0 0"/>
   </joint>
 
   <!-- Rear Left Rod -->
@@ -236,7 +236,7 @@
   <joint name="rear_left_rod_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rear_left_rod_link"/>
-    <origin xyz="-0.08 0.08 0.0775" rpy="0 0 0"/>
+    <origin xyz="-0.03 0.13 0.0775" rpy="0 0 0"/>
   </joint>
 
   <!-- Rear Right Rod -->
@@ -264,7 +264,7 @@
   <joint name="rear_right_rod_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rear_right_rod_link"/>
-    <origin xyz="-0.08 -0.08 0.0775" rpy="0 0 0"/>
+    <origin xyz="-0.03 -0.13 0.0775" rpy="0 0 0"/>
   </joint>
 
   <!-- Cup Holder Tray - 320mm width (0.16m radius), 90mm height -->
