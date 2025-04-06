@@ -41,8 +41,7 @@
       <sensor type="ray" name="head_hokuyo_sensor">
         <pose>0 0 0 0 0 0</pose>
         <visualize>true</visualize>
-        <update_rate>20</update_rate>
-        <always_on>true</always_on>
+        <update_rate>10</update_rate>
         <ray>
           <scan>
             <horizontal>
