@@ -8,12 +8,25 @@
   <xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
   <xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
 
-  <!-- Define argument for laser scanner inclusion -->
+  <!-- Define arguments -->
   <xacro:arg name="include_laser" default="true"/>
+  <xacro:arg name="robot_color" default="Blue"/>
+
+  <!-- Set color property based on the robot_color parameter -->
+  <xacro:property name="robot_gazebo_color" value="Blue"/>
+  <xacro:property name="robot_visual_color" value="robot_blue"/>
+  <xacro:if value="${'$(arg robot_color)' == 'Red'}">
+    <xacro:property name="robot_gazebo_color" value="Red"/>
+    <xacro:property name="robot_visual_color" value="robot_red"/>
+  </xacro:if>
 
   <!-- Define colors -->
   <material name="robot_blue">
     <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="robot_red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
   </material>
 
   <material name="robot_black">
@@ -40,7 +53,7 @@
       <geometry>
         <cylinder radius="0.178" length="0.155"/>
       </geometry>
-      <material name="robot_blue"/>
+      <material name="${robot_visual_color}"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -52,7 +65,7 @@
 
   <!-- Gazebo color for the base_link -->
   <gazebo reference="base_link">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/${robot_gazebo_color}</material>
   </gazebo>
 
   <!-- Add wheels using macros -->
@@ -70,7 +83,7 @@
   <xacro:standoff_rod prefix="rear_right" x_offset="-0.03" y_offset="-0.13" />
 
   <!-- Add cup holder tray using macro -->
-  <xacro:cup_holder_tray />
+  <xacro:cup_holder_tray robot_color="$(arg robot_color)" />
 
   <!-- Add laser scanner if include_laser is true -->
   <xacro:if value="$(arg include_laser)">
@@ -81,6 +94,7 @@
   <gazebo>
     <plugin name="gazebo_ros_diff_drive" filename="libgazebo_ros_diff_drive.so">
       <ros>
+        <!-- Namespace will be automatically prefixed by the robot's namespace -->
         <namespace>/</namespace>
       </ros>
       <update_rate>100.0</update_rate>
