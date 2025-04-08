@@ -2,11 +2,23 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Cup holder tray macro -->
-  <xacro:macro name="cup_holder_tray">
+  <xacro:macro name="cup_holder_tray" params="robot_color:=Blue">
     <!-- Constants for the tray - 320mm width (0.16m radius), 90mm height -->
     <xacro:property name="tray_radius" value="0.16" />
     <xacro:property name="tray_height" value="0.09" />
     <xacro:property name="tray_mass" value="1.0" />
+    
+    <!-- Set the visual material based on robot color -->
+    <xacro:property name="tray_material" value="robot_blue" />
+    <xacro:if value="${robot_color == 'Red'}">
+      <xacro:property name="tray_material" value="robot_red" />
+    </xacro:if>
+    
+    <!-- Set the Gazebo color based on robot color -->
+    <xacro:property name="tray_gazebo_color" value="Blue" />
+    <xacro:if value="${robot_color == 'Red'}">
+      <xacro:property name="tray_gazebo_color" value="Red" />
+    </xacro:if>
 
     <link name="cup_holder_tray_link">
       <inertial>
@@ -25,7 +37,7 @@
         <geometry>
           <cylinder radius="${tray_radius}" length="${tray_height}"/>
         </geometry>
-        <material name="robot_blue"/>
+        <material name="${tray_material}"/>
       </visual>
       <collision>
         <origin xyz="0 0 ${tray_height/2}" rpy="0 0 0"/>
@@ -43,7 +55,7 @@
 
     <!-- Gazebo-specific properties -->
     <gazebo reference="cup_holder_tray_link">
-      <material>Gazebo/Blue</material>
+      <material>Gazebo/${tray_gazebo_color}</material>
     </gazebo>
   </xacro:macro>
 
