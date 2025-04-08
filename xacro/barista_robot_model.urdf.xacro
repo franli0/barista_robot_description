@@ -11,6 +11,10 @@
   <!-- Define arguments -->
   <xacro:arg name="include_laser" default="true"/>
   <xacro:arg name="robot_color" default="Blue"/>
+  <xacro:arg name="robot_name" default="barista"/>
+
+  <!-- Set robot_name property based on the argument -->
+  <xacro:property name="robot_name" value="$(arg robot_name)"/>
 
   <!-- Set color property based on the robot_color parameter -->
   <xacro:property name="robot_gazebo_color" value="Blue"/>
@@ -95,7 +99,9 @@
     <plugin name="gazebo_ros_diff_drive" filename="libgazebo_ros_diff_drive.so">
       <ros>
         <!-- Namespace will be automatically prefixed by the robot's namespace -->
-        <namespace>/</namespace>
+        <namespace>/${robot_name}</namespace>
+        <remapping>cmd_vel:=cmd_vel</remapping>
+        <remapping>odom:=odom</remapping>
       </ros>
       <update_rate>100.0</update_rate>
       <left_joint>left_wheel_joint</left_joint>
@@ -109,8 +115,8 @@
       <publish_odom_tf>true</publish_odom_tf>
       <publish_wheel_tf>false</publish_wheel_tf>
       <odometry_topic>odom</odometry_topic>
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <odometry_frame>${robot_name}/odom</odometry_frame>
+      <robot_base_frame>${robot_name}/base_link</robot_base_frame>
     </plugin>
   </gazebo>
 
