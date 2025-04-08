@@ -13,7 +13,7 @@ def generate_launch_description():
     # Use simulation time
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     
-    # Configure Gazebo
+    # Configure Gazebo with an empty world
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
@@ -21,10 +21,10 @@ def generate_launch_description():
     )
     
     # First, create a common reference frame - the world/map frame
-    map_frame = Node(
+    world_to_map = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='static_tf_map_publisher',
+        name='world_to_map',
         arguments=['0', '0', '0', '0', '0', '0', 'world', 'map']
     )
     
@@ -35,8 +35,30 @@ def generate_launch_description():
     morty_name = "morty"
     morty_x, morty_y = -1.0, 0.0
     
+    # Position Rick's odom frame correctly in the map frame
+    map_to_rick_odom = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='map_to_rick_odom',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', f'{rick_name}/odom']
+    )
+    
+    # Position Morty's odom frame correctly in the map frame
+    map_to_morty_odom = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='map_to_morty_odom',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', f'{morty_name}/odom']
+    )
+    
     # RICK (RED) ROBOT
     rick_xacro_file = os.path.join(pkg_dir, 'xacro', 'barista_robot_model.urdf.xacro')
+    
+    # Process Rick's XACRO file with explicit parameters
+    rick_robot_description_content = Command(['xacro ', rick_xacro_file, 
+                                             ' robot_name:=', rick_name, 
+                                             ' include_laser:=true', 
+                                             ' robot_color:=Red'])
     
     # Rick's robot state publisher
     rick_robot_state_publisher = Node(
@@ -45,9 +67,9 @@ def generate_launch_description():
         name='robot_state_publisher',
         namespace=rick_name,
         parameters=[{
-            'frame_prefix': rick_name + '/', 
+            'frame_prefix': rick_name + '/',
             'use_sim_time': use_sim_time,
-            'robot_description': Command(['xacro ', rick_xacro_file, ' include_laser:=true', ' robot_color:=Red'])
+            'robot_description': rick_robot_description_content
         }],
         output="screen"
     )
@@ -58,15 +80,8 @@ def generate_launch_description():
         executable='joint_state_publisher',
         name='joint_state_publisher',
         namespace=rick_name,
+        parameters=[{'use_sim_time': use_sim_time}],
         output="screen"
-    )
-    
-    # Position Rick's odom frame correctly in the map frame
-    map_to_rick_odom = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_rick_odom',
-        arguments=[str(rick_x), str(rick_y), '0', '0', '0', '0', 'map', f'{rick_name}/odom']
     )
     
     # Spawn Rick robot in Gazebo
@@ -87,6 +102,12 @@ def generate_launch_description():
     # MORTY (BLUE) ROBOT
     morty_xacro_file = os.path.join(pkg_dir, 'xacro', 'barista_robot_model.urdf.xacro')
     
+    # Process Morty's XACRO file with explicit parameters
+    morty_robot_description_content = Command(['xacro ', morty_xacro_file, 
+                                              ' robot_name:=', morty_name, 
+                                              ' include_laser:=true', 
+                                              ' robot_color:=Blue'])
+    
     # Morty's robot state publisher
     morty_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -96,7 +117,7 @@ def generate_launch_description():
         parameters=[{
             'frame_prefix': morty_name + '/',
             'use_sim_time': use_sim_time,
-            'robot_description': Command(['xacro ', morty_xacro_file, ' include_laser:=true', ' robot_color:=Blue'])
+            'robot_description': morty_robot_description_content
         }],
         output="screen"
     )
@@ -107,15 +128,8 @@ def generate_launch_description():
         executable='joint_state_publisher',
         name='joint_state_publisher',
         namespace=morty_name,
+        parameters=[{'use_sim_time': use_sim_time}],
         output="screen"
-    )
-    
-    # Position Morty's odom frame correctly in the map frame
-    map_to_morty_odom = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_morty_odom',
-        arguments=[str(morty_x), str(morty_y), '0', '0', '0', '0', 'map', f'{morty_name}/odom']
     )
     
     # Spawn Morty robot in Gazebo
@@ -146,17 +160,16 @@ def generate_launch_description():
         output="screen"
     )
     
-    # Return the launch description
     return LaunchDescription([
         gazebo,
-        map_frame,
+        world_to_map,
+        map_to_rick_odom,
+        map_to_morty_odom,
         rick_robot_state_publisher,
         rick_joint_state_publisher,
-        map_to_rick_odom,
         spawn_rick,
         morty_robot_state_publisher,
         morty_joint_state_publisher,
-        map_to_morty_odom,
         spawn_morty,
         rviz
     ])
