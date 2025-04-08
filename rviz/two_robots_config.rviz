@@ -114,53 +114,52 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          morty/odom:
-            morty/base_link:
-              morty/cup_holder_tray_link:
-                {}
-              morty/front_caster_link:
-                {}
-              morty/front_left_rod_link:
-                {}
-              morty/front_right_rod_link:
-                {}
-              morty/laser_link:
-                {}
-              morty/left_wheel_link:
-                {}
-              morty/rear_caster_link:
-                {}
-              morty/rear_left_rod_link:
-                {}
-              morty/rear_right_rod_link:
-                {}
-              morty/right_wheel_link:
-                {}
-          rick/odom:
-            rick/base_link:
-              rick/cup_holder_tray_link:
-                {}
-              rick/front_caster_link:
-                {}
-              rick/front_left_rod_link:
-                {}
-              rick/front_right_rod_link:
-                {}
-              rick/laser_link:
-                {}
-              rick/left_wheel_link:
-                {}
-              rick/rear_caster_link:
-                {}
-              rick/rear_left_rod_link:
-                {}
-              rick/rear_right_rod_link:
-                {}
-              rick/right_wheel_link:
-                {}
-          world:
-            {}
+        world:
+          map:
+            morty/odom:
+              morty/base_link:
+                morty/cup_holder_tray_link:
+                  {}
+                morty/front_caster_link:
+                  {}
+                morty/front_left_rod_link:
+                  {}
+                morty/front_right_rod_link:
+                  {}
+                morty/laser_link:
+                  {}
+                morty/left_wheel_link:
+                  {}
+                morty/rear_caster_link:
+                  {}
+                morty/rear_left_rod_link:
+                  {}
+                morty/rear_right_rod_link:
+                  {}
+                morty/right_wheel_link:
+                  {}
+            rick/odom:
+              rick/base_link:
+                rick/cup_holder_tray_link:
+                  {}
+                rick/front_caster_link:
+                  {}
+                rick/front_left_rod_link:
+                  {}
+                rick/front_right_rod_link:
+                  {}
+                rick/laser_link:
+                  {}
+                rick/left_wheel_link:
+                  {}
+                rick/rear_caster_link:
+                  {}
+                rick/rear_left_rod_link:
+                  {}
+                rick/rear_right_rod_link:
+                  {}
+                rick/right_wheel_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -341,7 +340,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.10000000149011612
+      Size (m): 0.05000000149011612
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -375,7 +374,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.10000000149011612
+      Size (m): 0.05000000149011612
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -433,7 +432,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10
+      Distance: 5.0
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
