@@ -30,10 +30,10 @@ def generate_launch_description():
     
     # Define robot names and positions
     rick_name = "rick"
-    rick_x, rick_y = 1.0, 0.0
+    rick_x, rick_y = -1.0, 0.0
     
     morty_name = "morty"
-    morty_x, morty_y = -1.0, 0.0
+    morty_x, morty_y = 1.0, 0.0
     
     # Position Rick's odom frame correctly in the map frame
     map_to_rick_odom = Node(
